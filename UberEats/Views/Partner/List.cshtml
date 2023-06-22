@@ -1,0 +1,64 @@
+﻿@model List<Partner>
+@{
+    ViewData["Title"] = "Partner";
+}
+
+<h1>Partner List</h1>
+@if (!string.IsNullOrEmpty(TempData["SuccessMessage"] as string))
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+<div class="row">
+    <div class="col-md-2">
+        <div class="list-group">
+            <a asp-controller="Partner" asp-action="List" asp-route-id="All" 
+                class="list-group-item 
+                @(ViewBag.SelectedCategoryName == "All" ? "active" : "")">
+                All
+            </a>
+            @foreach (Category c in ViewBag.Categories)
+            {
+                <a asp-controller="Partner" asp-action="List" asp-route-id="@c.Name" 
+                   class="list-group-item
+                         @(ViewBag.SelectedCategoryName == c.Name ? "active" : "")">
+                    @c.Name
+                </a>
+            }
+        </div>
+    </div>
+
+    <div class="col-md-10">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Type</th>
+            </thead>
+            <tbody>
+                @foreach (var Partner in Model)
+                {
+                    <tr>
+                        <td>@Partner.Name</td>
+                        <td>@Partner.Address</td>
+                        <td>@Partner.Email</td>
+                        <td>@Partner.Phone</td>
+                        <td>@Partner.Category</td>
+                        
+                         <td>
+                            <a asp-controller="#">Menu</a>
+                        </td>
+                        <td>
+                            <a asp-controller="Partner" asp-action="Details"
+                               asp-route-id="@Partner.PartnerID"
+                               asp-route-slug="">Details</a>
+                        </td>
+                       
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
